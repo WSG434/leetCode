@@ -19,52 +19,27 @@ let s = "([)]"; //false
 function isValid(s = "") {
 
   let currentValues = [];
-  if (s.length < 1 || (s.length % 2 !== 0)) {
-    return false;
-  }
 
-  for (let i = 0; i < s.length; i++) {
-    switch (s[i]) {
+  for (let elem of s) {
+    switch (elem) {
       case "(":
+        currentValues.push(")");
+        break;
       case "[":
+        currentValues.push("]");
+        break;
       case "{":
-        currentValues.push(s[i]);
-        break;
-      case ")":
-        if (currentValues[currentValues.length - 1] === "(") {
-          currentValues.pop();
-        }
-        else {
-          return false;
-        }
-        break;
-      case "]":
-        if (currentValues[currentValues.length - 1] === "[") {
-          currentValues.pop();
-        }
-        else {
-          return false;
-        }
-        break;
-      case "}":
-        if (currentValues[currentValues.length - 1] === "{") {
-          currentValues.pop();
-        }
-        else {
-          return false;
-        }
+        currentValues.push("}");
         break;
       default:
-        console.log("Ooops... it's not a bracket");
+        if (currentValues.pop() !== elem) {
+          return false;
+        }
         break;
     }
   }
 
-  if (currentValues.length !== 0) {
-    return false;
-  } else {
-    return true;
-  }
+  return currentValues.length === 0;
 
 }
 
